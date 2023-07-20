@@ -1,6 +1,29 @@
 version: '3'
 
 services:
+
+  mariaDb:
+    container_name: mariaDb
+    # build: ./mariaDB
+    image: mysql:latest
+    # ports:
+    #   -
+    env_file:
+      - .env
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    # build: ./wordpress
+    image: php:7.4-fpm-alpine
+    # ports:
+    #   -
+    restart: always
+
   nginx:
     container_name: nginx
     build: ./nginx
+    ports:
+      - 443:443
+    restart: always
+
