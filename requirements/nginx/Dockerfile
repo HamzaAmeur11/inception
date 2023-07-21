@@ -1,0 +1,15 @@
+FROM debian:stable
+
+RUN apt update -y && apt upgrade -y
+
+RUN apt install -y nginx openssl
+
+RUN mkdir -p /etc/nginx/ssl
+
+RUN openssl req -x509 -new -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/Mykey.key -out /etc/nginx/ssl/Mycer.crt -subj "/C="MO"/ST="KH"/L="0"/O="1337"/OU="Student"/CN="[hameur.1337.ma](http://hameur.42.ma/)" "
+
+COPY nginx.conf /etc/nginx/
+
+EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]
