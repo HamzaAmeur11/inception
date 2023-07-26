@@ -8,9 +8,11 @@ services:
     ports:
       - 3306:3306
     env_file:
-      - .env
+      - ./.env
     networks:
       - inception
+    volumes:
+      - db-data:/var/lib/mysql 
     restart: always
 
   wordpress:
@@ -18,19 +20,16 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-      args:
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       - mariadb
-    # ports:
-    #   -
+    ports:
+      - 9000:9000
     volumes:
       - wp-data:/var/www
     networks:
       - inception
+    env_file:
+      - ./.env
     restart: always
 
   nginx:
@@ -42,12 +41,14 @@ services:
       - 443:443
     depends_on:
       - wordpress
+    links:
+      - wordpress
     networks:
       - inception
     volumes:
-      - ./requirements/nginx/nginx.conf:/etc/nginx/sites-available/default
-      - ./requirements/tools:/etc/nginx/ssl/
-      - wp-data:/var/www/
+      - ./requirements/nginx/nginx.conf:/etc/nginx/sites-available/default/
+      - ./requirements/nginx/tools/:/etc/nginx/ssl/
+      - wp-data:/var/www
     restart: always
 
 networks:

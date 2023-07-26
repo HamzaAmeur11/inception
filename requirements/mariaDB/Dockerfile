@@ -4,7 +4,7 @@ RUN apt update -y && apt upgrade -y
 
 RUN apt install -y mariadb-server mariadb-client
 
-RUN mkdir -p /var/run/mysqld
+RUN mkdir -vp /var/run/mysqld
 RUN chown -R mysql /var/run/mysqld
 RUN chmod -R 777 /var/run/mysqld
 

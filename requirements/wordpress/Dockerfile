@@ -1,41 +1,21 @@
-# FROM debian:stable
-
-# ARG MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD VERSION=7.4
-
-# WORKDIR /var/www
-
-# RUN apt update -y
-
-# RUN apt upgrade -y && apt install -y wget unzip php${VERSION} php${VERSION}-fpm 
-# #php${VERSION}-mysqli 
-# #php${VERSION}-json php${VERSION}-curl php${VERSION}-dom php${VERSION}-exif php${VERSION}-fileinfo php${VERSION}-mbstring php${VERSION}-xml php${VERSION}-zip
-
-# RUN sed -i "s|listen = /run/php/php${VERSION}-fpm.sock|listen = 9000|g" /etc/php/${VERSION}/fpm/pool.d/www.conf
-
-# RUN wget https://wordpress.org/latest.zip && unzip latest.zip && cp -rf wordpress/* . && rm -rf wordpress latest.zip && rm -rf wp-config-sample.php && chmod -R 777 wp-content
-
-# RUN mkdir -p /run/php/
-
-# COPY ./script.sh .
-
-# RUN chmod +x script.sh && ./script.sh
-
-# CMD ["/usr/sbin/php-fpm7.4", "-F"]
-
-
 FROM debian:stable
 
-WORKDIR /var/www/html
+# ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -y && \
-    apt-get install -y php-fpm php-mysqli php-curl php-gd php-xml php-imagick php-mbstring && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN mkdir /run/php/; mkdir -p /var/www/; \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends apt-utils
 
-COPY ./script.sh .
-RUN chmod +x script.sh && ./script.sh
+RUN pwd
+
+COPY script.sh .
+
+RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl
+
+RUN curl -o wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    mv wp /usr/local/bin/ && chmod +x /usr/local/bin/wp && wp cli update --nightly --yes
+
+RUN chmod +x script.sh
 
 EXPOSE 9000
 
-
-CMD ["/usr/sbin/php-fpm8.2", "-F"]
+CMD ["bash", "./script.sh"]

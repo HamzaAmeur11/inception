@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mysql_install_db
+# mysql_install_db
 
 service mariadb start
 
