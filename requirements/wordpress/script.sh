@@ -3,7 +3,7 @@ wp core download --path=/var/www/ --allow-root
 cat /var/www/wp-config-sample.php > /var/www/wp-config.php
 chmod -R 0777 /var/www/wp-content
 sed -i 's/listen = \/run\/php\/php8.2-fpm.sock/listen = 9000/g' /etc/php/8.2/fpm/pool.d/www.conf
-
+sed -i 's|;listen.allowed_clients = 127.0.0.1|listen.allowed_clients = 0.0.0.0|g'
 chown -R www-data:www-data /var/www
 wp config set DB_NAME $DB_NAME --path=/var/www/ --allow-root
 wp config set DB_USER $DB_USER --path=/var/www/ --allow-root

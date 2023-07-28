@@ -9,12 +9,13 @@ RUN pwd
 
 COPY script.sh .
 
-RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl
+RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl php-tokenizer php-phar
 
 RUN curl -o wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     mv wp /usr/local/bin/ && chmod +x /usr/local/bin/wp && wp cli update --nightly --yes
 
 RUN chmod +x script.sh
+# RUN cat /etc/php/8.2/fpm/pool.d/www.conf | grep "listen"
 
 EXPOSE 9000
 
