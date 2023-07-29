@@ -30,6 +30,7 @@ services:
       - inception
     env_file:
       - ./.env
+    entrypoint: /entrypoint.sh
     restart: on-failure
 
   nginx:
@@ -55,21 +56,21 @@ networks:
     driver: bridge
 
 volumes:
-
+# change volumes path to  /home/login/data
   wp-data:
     driver_opts:
       o: bind
       type: none
-      device: ./data/wordpress
+      device: /Users/hameur/Desktop/data/wp
 
   db-data:
     driver_opts:
       o: bind
       type: none
-      device: ./data/mariadb
+      device: /Users/hameur/Desktop/data/db
 
   ng-data:
     driver_opts:
       o: bind
       type: none
-      device: ./data/nginx/
+      device: /Users/hameur/Desktop/data/ng
