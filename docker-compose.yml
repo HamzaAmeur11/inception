@@ -30,7 +30,6 @@ services:
       - inception
     env_file:
       - ./.env
-    entrypoint: /entrypoint.sh
     restart: on-failure
 
   nginx:
@@ -49,6 +48,8 @@ services:
     volumes:
       - ng-data:/etc/nginx/ssl/
       - wp-data:/var/www
+    env_file:
+      - ./.env
     restart: on-failure
 
 networks:

@@ -15,5 +15,5 @@ if [ -z "$(wp core is-installed --allow-root)" ]; then
     wp core install --url=hameur.42.fr --path=/var/www/ --title=$TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PWD --admin_email=$ADMIN_MAIL --allow-root
     wp user create --allow-root --path=/var/www/ $WP_USER $WP_MAIL --role=author --user_pass=$WP_PASS
 fi
-
+/usr/sbin/php-fpm8.2 -F
 exec "$@"
