@@ -15,6 +15,7 @@ ARG WP_USER \
 RUN mkdir /run/php/
 
 COPY script.sh .
+RUN chmod +x script.sh
 
 RUN apt-get update 
 RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl php-tokenizer php-phar
@@ -22,7 +23,8 @@ RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl php-tokeniz
 # RUN curl -o wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 #     mv wp /usr/local/bin/ && chmod +x /usr/local/bin/wp && wp cli update --nightly --yes
 
-RUN chmod +x script.sh
+# RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
 
 EXPOSE 9000
 

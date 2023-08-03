@@ -12,7 +12,7 @@ services:
     networks:
       - inception
     volumes:
-      - db-data:/var/lib/mysql 
+      - db-data:/var/lib/mysql
     restart: on-failure
 
   wordpress:
@@ -21,13 +21,16 @@ services:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_completed_successfully
     ports:
       - 9000:9000
     volumes:
       - wp-data:/var/www
     networks:
       - inception
+    links:
+      - mariadb
     env_file:
       - ./.env
     restart: on-failure
@@ -40,14 +43,15 @@ services:
     ports:
       - 443:443
     depends_on:
-      - wordpress
-    links:
-      - wordpress
+      wordpress:
+        condition: service_completed_successfully
     networks:
       - inception
+    links:
+      - wordpress
     volumes:
       - ng-data:/etc/nginx/ssl/
-      - wp-data:/var/www
+      - wp-data:/var/www/
     env_file:
       - ./.env
     restart: on-failure

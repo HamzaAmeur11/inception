@@ -1,24 +1,24 @@
 #!/bin/sh
 
-# mysql_install_db
+mysql_install_db
 
 service mariadb start
 
-mysql -u root -p$DB_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 
-mysql -u root -p$DB_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$USER_PASSWORD';"
+mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$USER_PASSWORD';"
 
-# mysql -u root -p$DB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
+mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
-mysql -u root -p$DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+mysql -u root -p $DB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%';"
 
-mysql -u root -p$DB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%';"
+mysql -u root -p $DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
 
-mysql -u root -p$DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
-
-mysql -u root -p$DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
 kill `cat /var/run/mysqld/mysqld.pid`
+
+# ls -la /var/lib/mysql
 
 # if [ ! -d "/var/lib/mysql/$DB_NAME" ]
 # then
