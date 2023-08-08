@@ -1,33 +1,35 @@
 #!/bin/sh
+# sed -i "s/bind-address            = 127.0.0.1/bind-address           = 0.0.0.0/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-mysql_install_db
+service mysql start
 
-service mariadb start
+echo "CREATE DATABASE $DB_NAME ;" > database.sql
+echo "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" >> database.sql
+echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';" >> database.sql
+echo "ALTER USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD' ;" >> database.sql
+echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD' ;" >> database.sql
+echo "FLUSH PRIVILEGES;" >> database.sql
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+sleep 10
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$USER_PASSWORD';"
+mysql < database.sql
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+kill $(cat /var/run/mysqld/mysqld.pid)
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%';"
+mysqld
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
+# service mysql start
 
-mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+# mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 
-kill `cat /var/run/mysqld/mysqld.pid`
+# mysql -u root -p $DB_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';"
 
-# ls -la /var/lib/mysql
+# mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
-# if [ ! -d "/var/lib/mysql/$DB_NAME" ]
-# then
-# 	mysql -u root -e "DROP DATABASE IF EXISTS test;"
-# 	mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME; GRANT ALL ON $DB_NAME.* TO 	'$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
-# 	mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';"
-# 	mysql -u root -e "FLUSH PRIVILEGES;"
-# fi
+# mysql -u root -p $DB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%';"
 
-# mysqladmin shutdown -p${DB_ROOT_PASSWORD}
+# mysql -u root -p $DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
 
-# exec mysqld --user=mysql
+# mysql -u root -p $DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+
+# kill `cat /var/run/mysqld/mysqld.pid`

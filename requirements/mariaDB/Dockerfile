@@ -1,22 +1,16 @@
-FROM debian:stable
-
-ARG DB_NAME
-ARG DB_USER
-ARG DB_ROOT_PASSWORD
-ARG USER_PASSWORD
-ARG DB_HOST
+FROM debian:buster
 
 RUN apt update -y && apt upgrade -y
-RUN apt install -y mariadb-server mariadb-client
+RUN apt install mariadb-server -y
 
 COPY ./script.sh .
-COPY ./50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY ./50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+# RUN chmod 777 /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN ls -la /var/lib/mysql/
 
 RUN chmod +x script.sh
-RUN ./script.sh
+# RUN ./script.sh
 
 EXPOSE 3306
 
-CMD ["mysqld"]
+CMD [ "./script.sh" ]

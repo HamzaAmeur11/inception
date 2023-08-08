@@ -12,11 +12,10 @@ FROM debian:stable
 
 #/etc/nginx/ssl/Hameur.42.fr.crt
 
-ENV DEBIAN_FRONTEND=noninteractive
+# ENV DEBIAN_FRONTEND=noninteractive
 
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && apt-get clean && apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends apt-utils &&\
-    apt-get update && apt-get -y upgrade && apt-get install -y nginx curl ca-certificates
-RUN cp /var/www/html/index.nginx-debian.html /var/www/index.html; mkdir /etc/nginx/ssl
+RUN apt-get update && apt-get -y upgrade && apt-get install -y nginx curl ca-certificates
+RUN mkdir /etc/nginx/ssl
 
 RUN curl -LO https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 \
     && chmod +x mkcert-v1.4.4-linux-amd64 && mv mkcert-v1.4.4-linux-amd64 mkcert \
@@ -24,8 +23,6 @@ RUN curl -LO https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkce
 
 
 COPY nginx.conf /etc/nginx/
-# COPY index.html /var/www/
-# RUN chmod 0777 /var/www/index.html
 
 EXPOSE 443
 

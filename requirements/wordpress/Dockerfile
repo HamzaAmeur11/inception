@@ -1,33 +1,18 @@
-FROM debian:stable
+FROM debian:buster
 
-ARG WP_USER \
-    WP_PASS \
-    WP_EMAIL \
-    WP_TITLE \
-    DB_HOST \
-    DB_NAME \
-    DB_USER \
-    DB_USER_PASS \
-    USR \
-    USER_EMAIL \
-    USER_PASSWORD 
+RUN  mkdir -vp  /var/www/
 
 RUN mkdir /run/php/
 
-COPY script.sh .
+COPY ./script.sh script.sh
+
 RUN chmod +x script.sh
 
-RUN apt-get update 
-RUN apt-get install -y php8.2 php8.2-fpm php8.2-mysql php-redis curl php-tokenizer php-phar
+RUN apt update -y && apt upgrade -y
 
-# RUN curl -o wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-#     mv wp /usr/local/bin/ && chmod +x /usr/local/bin/wp && wp cli update --nightly --yes
-
-# RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
+RUN apt install -y php7.3 php-fpm php-mysql mariadb-client curl
 
 EXPOSE 9000
 
-ENTRYPOINT [ "./script.sh" ]
+CMD [ "./script.sh" ]
 
-CMD [ "/usr/sbin/php-fpm8.2" , "-F"]
