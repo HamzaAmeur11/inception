@@ -46,7 +46,6 @@ services:
     networks:
       - inception
     volumes:
-      # - ng-data:/etc/nginx/ssl/
       - wp-data:/var/www/
     env_file:
       - ./.env
@@ -65,6 +64,51 @@ services:
       - wp-data:/var/www/
     restart: on-failure
 
+  adminer:
+    container_name: adminer
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    ports:
+      - "7070:7070"
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    volumes:
+      - wp-data:/var/www/
+    env_file:
+      - ./.env
+    restart: on-failure
+
+  portainer:
+      container_name: portainer
+      build:
+        context: ./requirements/bonus/portainer
+        dockerfile: Dockerfile
+      ports:
+        - "9443:9443"
+      networks:
+        - inception
+      volumes:
+        - "/Users/hameur/Documents/inception/data/portainer:/data"
+        - "/etc/localtime:/etc/localtime:ro"
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      env_file:
+        - ./.env
+      restart: on-failure
+
+  static:
+    container_name: static
+    build:
+      context: ./requirements/bonus/static
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    restart: on-failure 
+
 networks:
   inception:
     driver: bridge
@@ -75,10 +119,10 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /Users/hameur/Documents/inception/data/wp
+      device: /Users/hameur/Documents/inception/data/wordpress
 
   db-data:
     driver_opts:
       o: bind
       type: none
-      device: /Users/hameur/Documents/inception/data/db
+      device: /Users/hameur/Documents/inception/data/mariadb

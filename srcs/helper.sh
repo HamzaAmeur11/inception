@@ -1,5 +1,7 @@
-rm -rf /Users/hameur/Documents/inception/data/wp 
-rm -rf /Users/hameur/Documents/inception/data/db
+rm -rf /Users/hameur/Documents/inception/data/wordpress
+rm -rf /Users/hameur/Documents/inception/data/mariadb
+rm -rf /Users/hameur/Documents/inception/data/portainer
 
-mkdir -vp /Users/hameur/Documents/inception/data/wp 
-mkdir -vp /Users/hameur/Documents/inception/data/db 
+mkdir -vp /Users/hameur/Documents/inception/data/wordpress
+mkdir -vp /Users/hameur/Documents/inception/data/mariadb
+mkdir -vp /Users/hameur/Documents/inception/data/portainer
