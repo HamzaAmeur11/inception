@@ -52,6 +52,19 @@ services:
       - ./.env
     restart: on-failure
 
+  redis:
+    container_name: redis
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    volumes:
+      - wp-data:/var/www/
+    restart: on-failure
+
 networks:
   inception:
     driver: bridge
@@ -69,9 +82,3 @@ volumes:
       o: bind
       type: none
       device: /Users/hameur/Documents/inception/data/db
-
-  # ng-data:
-  #   driver_opts:
-  #     o: bind
-  #     type: none
-  #     device: /Users/hameur/Desktop/data/ng

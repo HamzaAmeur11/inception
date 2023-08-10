@@ -14,15 +14,19 @@ FROM debian:stable
 
 # ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get -y upgrade && apt-get install -y nginx curl ca-certificates
+RUN apt-get update && apt-get -y upgrade && apt-get install -y nginx
+
 RUN mkdir /etc/nginx/ssl
-
-RUN curl -LO https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 \
-    && chmod +x mkcert-v1.4.4-linux-amd64 && mv mkcert-v1.4.4-linux-amd64 mkcert \
-    && mv mkcert /usr/local/bin/ && mkcert -key-file /etc/nginx/ssl/hameur.42.fr.key -cert-file /etc/nginx/ssl/hameur.42.fr.crt hameur.42.fr
+COPY /tools/hameur.42.fr.crt /etc/nginx/ssl
+COPY /tools/hameur.42.fr.key /etc/nginx/ssl
 
 
-COPY nginx.conf /etc/nginx/
+# RUN curl -LO https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 \
+#     && chmod +x mkcert-v1.4.4-linux-amd64 && mv mkcert-v1.4.4-linux-amd64 mkcert \
+#     && mv mkcert /usr/local/bin/ && mkcert -key-file /etc/nginx/ssl/hameur.42.fr.key -cert-file /etc/nginx/ssl/hameur.42.fr.crt hameur.42.fr
+
+
+COPY conf/nginx.conf /etc/nginx/
 
 EXPOSE 443
 

@@ -23,32 +23,32 @@ if [ ! -f /var/www/wp-config.php ]; then
     #set permissions for the wp-config.php
     chmod 777 /var/www/wp-config.php
 
-    sed -i "s/database_name_here/$DB_NAME/g" /var/www/wp-config.php
-    sed -i "s/username_here/$DB_USER/g" /var/www/wp-config.php
-    sed -i "s/password_here/$DB_PASSWORD/g" /var/www/wp-config.php
-    sed -i "s/localhost/$DB_HOST/g" /var/www/wp-config.php
+    # sed -i "s/database_name_here/$DB_NAME/g" /var/www/wp-config.php
+    # sed -i "s/username_here/$DB_USER/g" /var/www/wp-config.php
+    # sed -i "s/password_here/$DB_PASSWORD/g" /var/www/wp-config.php
+    # sed -i "s/localhost/$DB_HOST/g" /var/www/wp-config.php
 
     #set up the database credentials for our installation
-    # wp config set DB_NAME $DB_NAME --allow-root
-	# wp config set DB_USER $DB_USER --allow-root
-	# wp config set DB_PASSWORD $DB_USER_PASS --allow-root
-	# wp config set DB_HOST $DB_HOST --allow-root
+    wp config set DB_NAME $DB_NAME --allow-root
+	wp config set DB_USER $DB_USER --allow-root
+	wp config set DB_PASSWORD $DB_PASSWORD --allow-root
+	wp config set DB_HOST $DB_HOST --allow-root
 
 
-    # wp config set WP_REDIS_HOST 'redis' --allow-root
-	# wp config set WP_REDIS_PORT '6379' --allow-root
-	# wp config set WP_CACHE 'true' --allow-root
+    wp config set WP_REDIS_HOST 'redis' --allow-root
+	wp config set WP_REDIS_PORT '6379' --allow-root
+	wp config set WP_CACHE 'true' --allow-root
 
 
     #install WordPress now, we need to run one last command, while configuring WP-CLI credentials
     wp  --allow-root core install --url=$DOMAIN/ --title=$WP_TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASS --admin_email=$WP_MAIL --skip-email
     wp  --allow-root user create $WP_USER $USER_EMAIL --role=author  --user_pass=$WP_PASS
 
-    #set up the redis plugin
-    # wp plugin install redis-cache --activate --allow-root
-    # wp --allow-root redis enable
+    set up the redis plugin
+    wp plugin install redis-cache --activate --allow-root
+    wp --allow-root redis enable
 
-    # chown -R www-data:www-data /var/www/
+    chown -R www-data:www-data /var/www/
 
 fi
 echo "WEEWWWEEEEWWWEEEEEEE"
