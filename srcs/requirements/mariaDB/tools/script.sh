@@ -1,7 +1,7 @@
 #!/bin/sh
 # sed -i "s/bind-address            = 127.0.0.1/bind-address           = 0.0.0.0/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-service mysql start
+service mariadb start
 
 echo "CREATE DATABASE $DB_NAME ;" > database.sql
 echo "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" >> database.sql

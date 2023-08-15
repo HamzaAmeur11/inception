@@ -11,7 +11,7 @@ if [ ! -f /var/www/wp-config.php ]; then
 
     #You need to make this .phar file executable and move it to /usr/local/bin so that it can be run directly:
     chmod 777 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
-    sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
+    sed -i 's/listen = \/run\/php\/php8.2-fpm.sock/listen = 9000/g' /etc/php/8.2/fpm/pool.d/www.conf
     
     #WP-CLI includes a command to download WordPress
     wp --allow-root core download
@@ -52,5 +52,5 @@ if [ ! -f /var/www/wp-config.php ]; then
 
 fi
 echo "WEEWWWEEEEWWWEEEEEEE"
-exec /usr/sbin/php-fpm7.3 -F
+exec /usr/sbin/php-fpm8.2 -F
 

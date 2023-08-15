@@ -22,7 +22,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mariadb
-        # condition: service_completed_successfully
     ports:
       - "9000:9000"
     volumes:
@@ -42,7 +41,6 @@ services:
       - "443:443"
     depends_on:
       - wordpress
-        # condition: service_completed_successfully
     networks:
       - inception
     volumes:
@@ -81,48 +79,19 @@ services:
       - ./.env
     restart: on-failure
 
-  portainer:
-      container_name: portainer
-      build:
-        context: ./requirements/bonus/portainer
-        dockerfile: Dockerfile
-      ports:
-        - "9443:9443"
-      networks:
-        - inception
-      volumes:
-        - "/Users/hameur/Documents/inception/data/portainer:/data"
-        - "/etc/localtime:/etc/localtime:ro"
-        - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      env_file:
-        - ./.env
-      restart: on-failure
-
-  static:
-    container_name: static
-    build:
-      context: ./requirements/bonus/static
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    networks:
-      - inception
-    restart: on-failure 
-
 networks:
   inception:
     driver: bridge
 
 volumes:
-# change volumes path to  /home/login/data
   wp-data:
     driver_opts:
       o: bind
       type: none
-      device: /Users/hameur/Documents/inception/data/wordpress
-
+      device: /home/hameur/data/wordpress
+    
   db-data:
     driver_opts:
       o: bind
       type: none
-      device: /Users/hameur/Documents/inception/data/mariadb
+      device: /home/hameur/data/mariadb

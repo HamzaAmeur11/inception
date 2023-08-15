@@ -1,8 +1,8 @@
 build : 
-	cd srcs/ && ./helper.sh && docker compose up --build
+	cd srcs/ && docker-compose up --build
 
 stop : 
-	cd srcs/  && docker compose down --remove-orphans && ./helper.sh
+	cd srcs/  && docker-compose down --remove-orphans
 
 clean :
 	srcs/helper.sh && \

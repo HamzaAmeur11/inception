@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:stable
 
 RUN  mkdir -vp  /var/www/
 
