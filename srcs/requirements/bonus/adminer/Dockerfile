@@ -1,7 +1,7 @@
-FROM debian:stable
+FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
-RUN apt install -y wget php8.2 php8.2-mysql
+RUN apt install -y wget php php-mysql
 
 COPY ./tools/script.sh .
 RUN chmod +x script.sh
