@@ -1,7 +1,7 @@
-WordPress LEMP Stack with Docker
+#WordPress LEMP Stack with Docker
 This project demonstrates a lightweight WordPress system built on the LEMP stack (Nginx, MariaDB, PHP) using Docker and Docker Compose. It serves as a practical learning environment to gain experience with system administration using Docker.
 
-Features:
+#Features:
 Simplified Setup: Leverages Docker Compose to streamline the configuration and deployment of the LEMP stack components (Nginx, MariaDB, PHP) and WordPress. Customizable: Easily modify environment variables in .env to tailor settings for your WordPress installation. Scalable: Docker's containerization approach allows for scaling the number of WordPress instances or other services as needed. Portable: Docker ensures consistent development and deployment environments across different machines. Requirements:
 
 Docker Engine (install instructions: https://docs.docker.com/engine/install/) Docker Compose (install instructions: https://docs.docker.com/compose/install/) Getting Started:
@@ -23,6 +23,6 @@ This setup is intended for development purposes. For production environments, im
 
 We welcome contributions to this project! Feel free to submit pull requests for bug fixes, enhancements, or suggestions.
 
-License:
+#License:
 
 This project is licensed under the MIT License: https://choosealicense.com/licenses/mit/.
